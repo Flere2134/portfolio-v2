@@ -13,7 +13,7 @@ export const caseStudies = [
   },
   {
     id: "case-two",
-    title: "Case Study Two",
+    title: "[PRD] Algorhythm",
     tag: "PLACEHOLDER TAG",
     href: "#",
     image: null,

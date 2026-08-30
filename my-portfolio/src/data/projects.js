@@ -1,6 +1,3 @@
-// Placeholder project entries — swap in real names, descriptions, years,
-// links, and thumbnails/preview clips when ready.
-//
 // `preview` accepts either:
 //   { type: "image", src: "/src/assets/images/your-shot.png" }
 //   { type: "video", src: "/src/assets/images/your-clip.mp4" }
@@ -22,7 +19,7 @@ export const projects = [
     description: "A smart gas leak detection system with real-time monitoring and alerts.",
     year: "2026",
     href: "#",
-    preview: { type: "image", src: "/src/assets/images/gasguard-preview.jpg" },
+    preview: { type: "image", src: "/src/assets/images/gasguard-preview.png" },
     accent: "from-cerulean to-amber",
   },
 
