@@ -6,7 +6,7 @@ export const caseStudies = [
   {
     id: "case-one",
     title: "Fresh Only toggle for Spotify",
-    tag: "PLACEHOLDER TAG",
+    tag: "Fresh Only",
     href: "#",
     image: null,
     accent: "from-teal to-cerulean",
@@ -14,7 +14,7 @@ export const caseStudies = [
   {
     id: "case-two",
     title: "[PRD] Algorhythm",
-    tag: "PLACEHOLDER TAG",
+    tag: "Product Requirements Document",
     href: "#",
     image: null,
     accent: "from-cerulean to-amber",

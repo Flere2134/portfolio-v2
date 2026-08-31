@@ -82,16 +82,6 @@ export default function CaseStudies() {
       className="relative border-t border-espresso/10 dark:border-background/10"
     >
       <div className="sticky top-0 flex h-screen w-full overflow-hidden bg-background dark:bg-espresso">
-        {/* Left rail label */}
-        <div className="hidden w-12 shrink-0 flex-col items-center justify-between border-r border-espresso/10 py-10 dark:border-background/10 md:flex">
-          <span className="rotate-180 text-[10px] font-semibold tracking-[0.25em] text-espresso/40 [writing-mode:vertical-rl] dark:text-background/40">
-            EST. 2026
-          </span>
-          <span className="rotate-180 text-[10px] font-semibold tracking-[0.25em] text-espresso/40 [writing-mode:vertical-rl] dark:text-background/40">
-            ARBOLEDA
-          </span>
-        </div>
-
         {/* Scroll-synced list */}
         <div className="flex w-full items-center justify-center md:w-1/2">
           <div

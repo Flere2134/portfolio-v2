@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Linkedin, Github, ArrowUpRight } from "lucide-react";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import BackgroundPaths from "../ui/BackgroundPaths.jsx";
@@ -10,6 +10,15 @@ const socialIcons = {
 };
 
 export default function Hero() {
+  const [glowPos, setGlowPos] = useState({ x: 50, y: 0 });
+
+  const handleCardMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setGlowPos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  };
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-background transition-colors duration-300 dark:bg-espresso">
       <BackgroundPaths />
@@ -35,6 +44,9 @@ export default function Hero() {
             {profile.cards.map((card) => (
               <div
                 key={card.label}
+                // Solid surfaces on purpose: these sit above the animated
+                // background paths, so a translucent bg would let the lines
+                // bleed through and read as "on top of" the card.
                 className="rounded-2xl border border-espresso/10 bg-surface px-5 py-4 dark:border-background/10 dark:bg-[#332822]"
               >
                 <p className="text-[11px] font-semibold tracking-[0.18em] text-amber">
@@ -60,8 +72,18 @@ export default function Hero() {
             themes (not just light mode) so the background paths never
             show through it either. */}
         <div className="flex items-center justify-center md:justify-end">
-          <div className="w-full max-w-sm rounded-3xl border border-espresso/10 bg-espresso p-8 dark:border-background/10 dark:bg-[#332822]">
-            <div className="flex flex-col items-center text-center">
+          <div
+            className="group relative w-full max-w-sm overflow-hidden rounded-3xl border border-espresso/10 bg-espresso p-8 transition-colors duration-300 hover:border-amber/30 dark:border-background/10 dark:bg-[#332822]"
+            onMouseMove={handleCardMouseMove}
+          >
+            {/* Amber glow that follows the cursor */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                background: `radial-gradient(circle 220px at ${glowPos.x}% ${glowPos.y}%, rgba(197,153,71,0.22), transparent 70%)`,
+              }}
+            />
+            <div className="relative z-10 flex flex-col items-center text-center">
               {profile.photo ? (
                 <img
                   src={profile.photo}
@@ -87,7 +109,7 @@ export default function Hero() {
               </p>
             </div>
 
-            <div className="mt-7 flex flex-col gap-3">
+            <div className="relative z-10 mt-7 flex flex-col gap-3">
               {profile.socials.map(({ label, handle, href }) => {
                 const Icon = socialIcons[label];
                 return (
