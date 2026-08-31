@@ -79,7 +79,7 @@ export default function CaseStudies() {
       // Extra scroll distance gives the pin room to work — roughly one
       // viewport per item, plus one for settle-in/settle-out.
       style={{ height: `${(caseStudies.length + 1) * 100}vh` }}
-      className="relative border-t border-espresso/10 dark:border-background/10"
+      className="relative border-t border-espresso/10 dark:border-surface/10"
     >
       <div className="sticky top-0 flex h-screen w-full overflow-hidden bg-background dark:bg-espresso">
         {/* Scroll-synced list */}
@@ -114,7 +114,7 @@ export default function CaseStudies() {
                         "text-left transition-all duration-200 " +
                         (isActive
                           ? "font-serif text-3xl italic text-espresso dark:text-background md:text-4xl"
-                          : "text-xl text-espresso/50 dark:text-background/50 md:text-2xl")
+                          : "text-xl text-espresso/50 dark:text-surface/60 md:text-2xl")
                       }
                     >
                       {item.title}

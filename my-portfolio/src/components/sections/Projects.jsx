@@ -6,7 +6,7 @@ function ProjectPreview({ project, className = "" }) {
   return (
     <div
       className={
-        "flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border border-espresso/10 dark:border-background/10 " +
+        "flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border border-espresso/10 dark:border-surface/10 " +
         className
       }
     >
@@ -57,16 +57,16 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="w-full border-t border-espresso/10 bg-background px-6 py-24 dark:border-background/10 dark:bg-espresso md:px-10"
+      className="w-full border-t border-espresso/10 bg-background px-6 py-24 dark:border-surface/10 dark:bg-espresso md:px-10"
     >
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold tracking-[0.2em] text-espresso/50 dark:text-background/50">
-          SELECTED PROJECTS
+        <p className="text-xs font-semibold tracking-[0.2em] text-espresso/50 dark:text-surface/70">
+          SELECTED WORK
         </p>
 
         <div
           ref={containerRef}
-          className="relative mt-8 border-t border-espresso/10 dark:border-background/10"
+          className="relative mt-8 border-t border-espresso/10 dark:border-surface/10"
         >
           {projects.map((project) => {
             const isHovered = hoveredId === project.id;
@@ -75,7 +75,7 @@ export default function Projects() {
             return (
               <div
                 key={project.id}
-                className="border-b border-espresso/10 dark:border-background/10"
+                className="border-b border-espresso/10 dark:border-surface/10"
               >
                 <a
                   href={project.href}
@@ -95,7 +95,7 @@ export default function Projects() {
                   className={
                     "flex items-center justify-between gap-6 rounded-2xl px-5 py-6 transition-colors md:px-6 " +
                     (isHovered
-                      ? "bg-surface/60 dark:bg-background/5"
+                      ? "bg-surface/60 dark:bg-dark-surface/60"
                       : "bg-transparent")
                   }
                 >
@@ -114,12 +114,12 @@ export default function Projects() {
                         className="ml-2 inline text-cerulean"
                       />
                     )}
-                    <p className="mt-1 text-sm text-espresso/70 dark:text-background/70 md:text-base">
+                    <p className="mt-1 text-sm text-espresso/70 dark:text-surface md:text-base">
                       {project.description}
                     </p>
                   </div>
 
-                  <span className="shrink-0 text-sm text-espresso/50 dark:text-background/50">
+                  <span className="shrink-0 text-sm text-espresso/50 dark:text-surface/70">
                     {project.year}
                   </span>
                 </a>
