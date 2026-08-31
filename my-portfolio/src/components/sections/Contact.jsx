@@ -93,9 +93,8 @@ export default function Contact() {
                 placeholder="Enter your email address"
                 className={inputClasses}
               />
-            </div>
+            </div>          
           </div>
-
           <div>
             <label htmlFor="message" className="mb-2 block text-sm font-semibold text-espresso dark:text-background">
               Message
