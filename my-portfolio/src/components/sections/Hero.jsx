@@ -1,6 +1,7 @@
 import React from "react";
 import { Linkedin, Github, ArrowUpRight } from "lucide-react";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
+import BackgroundPaths from "../ui/BackgroundPaths.jsx";
 import { profile } from "../../data/profile.js";
 
 const socialIcons = {
@@ -11,9 +12,10 @@ const socialIcons = {
 export default function Hero() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-background transition-colors duration-300 dark:bg-espresso">
+      <BackgroundPaths />
       <ThemeToggle className="absolute top-6 right-6 z-10" />
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-2 md:gap-14 md:px-10 md:py-32">
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-2 md:gap-14 md:px-10 md:py-32">
         {/* Left column */}
         <div className="flex flex-col justify-center">
           <span className="mb-6 inline-flex w-fit items-center rounded-full border border-teal/25 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] text-teal dark:border-background/20 dark:text-background/70">
@@ -33,7 +35,7 @@ export default function Hero() {
             {profile.cards.map((card) => (
               <div
                 key={card.label}
-                className="rounded-2xl border border-espresso/10 bg-surface/50 px-5 py-4 dark:border-background/10 dark:bg-background/5"
+                className="rounded-2xl border border-espresso/10 bg-surface px-5 py-4 dark:border-background/10 dark:bg-[#332822]"
               >
                 <p className="text-[11px] font-semibold tracking-[0.18em] text-amber">
                   {card.label}
@@ -54,10 +56,11 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Right column — profile card. Stays an "Espresso" dark block in
-            both themes for contrast, same as the reference. */}
+        {/* Right column — profile card. Stays a solid dark block in both
+            themes (not just light mode) so the background paths never
+            show through it either. */}
         <div className="flex items-center justify-center md:justify-end">
-          <div className="w-full max-w-sm rounded-3xl border border-espresso/10 bg-espresso p-8 dark:border-background/10 dark:bg-background/5">
+          <div className="w-full max-w-sm rounded-3xl border border-espresso/10 bg-espresso p-8 dark:border-background/10 dark:bg-[#332822]">
             <div className="flex flex-col items-center text-center">
               {profile.photo ? (
                 <img
