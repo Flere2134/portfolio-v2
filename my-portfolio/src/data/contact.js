@@ -19,4 +19,4 @@ export const contact = {
 // (EmailJS is a solid alternative if you'd rather use that instead —
 // same idea, slightly more setup with an SDK + email template.)
 // ---------------------------------------------------------------------------
-export const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+export const WEB3FORMS_ACCESS_KEY = "d7592267-083a-427e-a79d-79ec236eebce";
