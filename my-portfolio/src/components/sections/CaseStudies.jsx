@@ -1,163 +1,228 @@
-import React, { useState } from "react";
-import { User, Mail, ArrowRight, CheckCircle2, AlertCircle, Linkedin, Github } from "lucide-react";
-import { contact, WEB3FORMS_ACCESS_KEY } from "../../data/contact.js";
-import { profile } from "../../data/profile.js";
+import React, { useEffect, useRef, useState } from "react";
+import { Maximize2, SkipForward } from "lucide-react";
+import { caseStudies } from "../../data/caseStudies.js";
 
-const socialIcons = {
-  LinkedIn: Linkedin,
-  GitHub: Github,
-};
+const ITEM_HEIGHT = 96; // px — keep in sync with the `h-24` on each <li>
+const TRACK_SLOTS = 5; // odd number of rows visible in the text track
+const TRACK_HEIGHT = ITEM_HEIGHT * TRACK_SLOTS;
 
-const fieldClasses =
-  "flex items-center gap-3 rounded-full border border-espresso/15 bg-background px-4 py-3 transition-colors focus-within:border-cerulean focus-within:ring-2 focus-within:ring-cerulean/25";
+const CARD_HEIGHT = 260; // px — height of each image card
+const CARD_GAP = 28; // px — space between stacked image cards
+const CARD_STEP = CARD_HEIGHT + CARD_GAP;
 
-const inputClasses =
-  "w-full bg-transparent text-sm text-espresso placeholder:text-espresso/40 outline-none";
+export default function CaseStudies() {
+  const sectionRef = useRef(null);
+  const imageTrackRef = useRef(null);
+  const [activeFloat, setActiveFloat] = useState(0);
+  const [imageTrackHeight, setImageTrackHeight] = useState(600);
 
-export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  useEffect(() => {
+    let ticking = false;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
+    const computeProgress = () => {
+      ticking = false;
+      const el = sectionRef.current;
+      if (!el) return;
 
-    const formData = new FormData(e.target);
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", contact.emailSubject);
+      const rect = el.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      if (scrollable <= 0) return;
 
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
+      // How far we've scrolled through the pinned section, 0 → 1.
+      const progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+      setActiveFloat(progress * (caseStudies.length - 1));
+    };
 
-      if (data.success) {
-        setStatus("success");
-        e.target.reset();
-      } else {
-        setStatus("error");
+    const measure = () => {
+      if (imageTrackRef.current) {
+        setImageTrackHeight(imageTrackRef.current.clientHeight);
       }
-    } catch {
-      setStatus("error");
-    }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(computeProgress);
+      }
+    };
+
+    computeProgress();
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
+  const activeIndex = Math.round(activeFloat);
+
+  // Manual "skip" — scrolls the window to the point in the pinned section
+  // that corresponds to the next item, since position is scroll-driven.
+  const goToIndex = (index) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const scrollable = rect.height - window.innerHeight;
+    const targetProgress = index / (caseStudies.length - 1);
+    const targetY = window.scrollY + rect.top + targetProgress * scrollable;
+    window.scrollTo({ top: targetY, behavior: "smooth" });
   };
 
   return (
-    // Fixed dark "footer" chrome — deliberately not theme-toggled, same
-    // idea as the Hero profile card and Case Studies image panels: this
-    // section always looks like this regardless of light/dark mode.
     <section
-      id="contact"
-      className="w-full border-t-4 border-amber bg-espresso px-6 py-24 md:px-10"
+      ref={sectionRef}
+      id="case-studies"
+      // Extra scroll distance gives the pin room to work — roughly one
+      // viewport per item, plus one for settle-in/settle-out.
+      style={{ height: `${(caseStudies.length + 1) * 100}vh` }}
+      className="relative border-t border-espresso/10 dark:border-surface/10"
     >
-      <div className="mx-auto max-w-xl text-center">
-        <span className="inline-flex items-center rounded-full bg-background/10 px-4 py-1.5 text-xs font-semibold tracking-[0.15em] text-cerulean">
-          {contact.badge}
-        </span>
-
-        <h2 className="mt-5 text-4xl font-bold tracking-tight text-background md:text-5xl">
-          {contact.heading}
-        </h2>
-
-        <p className="mt-4 text-surface">
-          {contact.subheading}{" "}
-          <a
-            href={`mailto:${contact.email}`}
-            className="text-cerulean hover:underline"
+      <div className="sticky top-0 flex h-screen w-full overflow-hidden bg-background dark:bg-espresso">
+        {/* Scroll-synced list */}
+        <div className="flex w-full items-center justify-center md:w-1/2">
+          <div
+            className="relative w-full max-w-md overflow-hidden px-6"
+            style={{ height: TRACK_HEIGHT }}
           >
-            {contact.email}
-          </a>
-        </p>
-
-        {/* Social icons — an option alongside email/the form below */}
-        <div className="mt-5 flex items-center justify-center gap-3">
-          {profile.socials.map(({ label, href }) => {
-            const Icon = socialIcons[label];
-            return (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-cerulean/30 text-cerulean transition-colors hover:bg-cerulean hover:text-espresso"
-              >
-                <Icon size={18} />
-              </a>
-            );
-          })}
+            <ul
+              className="absolute inset-x-0 left-6 right-6"
+              style={{
+                transform: `translateY(${
+                  TRACK_HEIGHT / 2 - ITEM_HEIGHT / 2 - activeFloat * ITEM_HEIGHT
+                }px)`,
+              }}
+            >
+              {caseStudies.map((item, index) => {
+                const distance = Math.abs(index - activeFloat);
+                const isActive = index === activeIndex;
+                return (
+                  <li
+                    key={item.id}
+                    className="flex items-center"
+                    style={{
+                      height: ITEM_HEIGHT,
+                      opacity: Math.max(0.15, 1 - distance * 0.45),
+                    }}
+                  >
+                    <button
+                      onClick={() => goToIndex(index)}
+                      className={
+                        "text-left transition-all duration-200 " +
+                        (isActive
+                          ? "font-serif text-3xl italic text-espresso dark:text-background md:text-4xl"
+                          : "text-xl text-espresso/50 dark:text-surface/60 md:text-2xl")
+                      }
+                    >
+                      {item.title}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-10 flex flex-col gap-6 text-left">
-          <div>
-            <label htmlFor="name" className="mb-2 block text-sm font-semibold text-surface">
-              Full Name
-            </label>
-            <div className={fieldClasses}>
-              <User size={18} className="shrink-0 text-espresso/50" />
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                placeholder="Enter your full name"
-                className={inputClasses}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="email" className="mb-2 block text-sm font-semibold text-surface">
-              Email Address
-            </label>
-            <div className={fieldClasses}>
-              <Mail size={18} className="shrink-0 text-espresso/50" />
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="Enter your email address"
-                className={inputClasses}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="message" className="mb-2 block text-sm font-semibold text-surface">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={5}
-              placeholder="Enter your message"
-              className="w-full rounded-2xl border border-espresso/15 bg-background px-4 py-3 text-sm text-espresso placeholder:text-espresso/40 outline-none transition-colors focus:border-cerulean focus:ring-2 focus:ring-cerulean/25"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={status === "sending"}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-cerulean px-6 py-3.5 text-sm font-semibold text-espresso transition-colors hover:bg-background disabled:opacity-60"
+        {/* Image panel — same scroll-sync mechanic as the list, applied to
+            a vertical stack of image cards, so it reads as one continuous
+            filmstrip rather than a single image swapping in place. */}
+        <div className="hidden w-1/2 items-stretch justify-center py-10 pr-10 md:flex">
+          <div
+            ref={imageTrackRef}
+            className="relative w-full max-w-md overflow-hidden"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+            }}
           >
-            {status === "sending" ? "Sending..." : "Submit Form"}
-            {status !== "sending" && <ArrowRight size={16} />}
-          </button>
+            <div
+              className="absolute inset-x-0"
+              style={{
+                transform: `translateY(${
+                  imageTrackHeight / 2 -
+                  CARD_HEIGHT / 2 -
+                  activeFloat * CARD_STEP
+                }px)`,
+              }}
+            >
+              {caseStudies.map((item, index) => {
+                const distance = Math.abs(index - activeFloat);
+                const isActive = index === activeIndex;
+                const opacity = Math.max(0.12, 1 - distance * 0.55);
+                const scale = Math.max(0.88, 1 - distance * 0.08);
+                const blur = distance > 0.4 ? Math.min(distance * 3, 6) : 0;
 
-          {status === "success" && (
-            <p className="flex items-center justify-center gap-2 text-sm font-medium text-cerulean">
-              <CheckCircle2 size={16} />
-              Message sent — thanks for reaching out!
-            </p>
-          )}
-          {status === "error" && (
-            <p className="flex items-center justify-center gap-2 text-sm font-medium text-amber">
-              <AlertCircle size={16} />
-              Something went wrong — try again, or email directly above.
-            </p>
-          )}
-        </form>
+                return (
+                  <div
+                    key={item.id}
+                    className="w-full overflow-hidden rounded-2xl border border-background/10 bg-espresso shadow-xl"
+                    style={{
+                      height: CARD_HEIGHT,
+                      marginBottom: CARD_GAP,
+                      opacity,
+                      transform: `scale(${scale})`,
+                      filter: blur ? `blur(${blur}px)` : "none",
+                      transition: "filter 150ms linear",
+                    }}
+                  >
+                    <div className="relative h-full w-full">
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        // TODO: replace with a real image via `image` in
+                        // data/caseStudies.js
+                        <div
+                          className={
+                            "flex h-full w-full items-center justify-center bg-gradient-to-br text-xs font-semibold tracking-widest text-background/70 " +
+                            item.accent
+                          }
+                        >
+                          IMAGE PLACEHOLDER
+                        </div>
+                      )}
+
+                      {/* Tag + controls, overlaid directly on the image */}
+                      <div className="absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-black/50 to-transparent px-4 py-3">
+                        <span className="text-xs font-semibold tracking-[0.15em] text-background/80">
+                          {item.tag}
+                        </span>
+                        {isActive && (
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={item.href}
+                              aria-label="Open case study"
+                              className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
+                            >
+                              <Maximize2 size={13} />
+                            </a>
+                            <button
+                              onClick={() =>
+                                goToIndex((activeIndex + 1) % caseStudies.length)
+                              }
+                              aria-label="Next case study"
+                              className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
+                            >
+                              <SkipForward size={13} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
