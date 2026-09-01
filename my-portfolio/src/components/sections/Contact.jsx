@@ -44,14 +44,13 @@ export default function Contact() {
   };
 
   return (
-    // Fixed dark "footer" chrome — deliberately not theme-toggled, same
-    // idea as the Hero profile card and Case Studies image panels: this
-    // section always looks like this regardless of light/dark mode.
-    <section
-      id="contact"
-      className="w-full border-t-4 border-amber bg-espresso px-6 py-24 md:px-10"
-    >
-      <div className="mx-auto max-w-xl text-center">
+    <section id="contact" className="relative w-full bg-espresso">
+      { /*gradient lines above the contact form section */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-amber/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-amber/10 to-transparent" />
+
+      <div className="relative px-6 py-24 md:px-10">
+        <div className="mx-auto max-w-xl text-center">
         <span className="inline-flex items-center rounded-full bg-background/10 px-4 py-1.5 text-xs font-semibold tracking-[0.15em] text-cerulean">
           {contact.badge}
         </span>
@@ -158,6 +157,7 @@ export default function Contact() {
             </p>
           )}
         </form>
+        </div>
       </div>
     </section>
   );
