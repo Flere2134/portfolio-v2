@@ -1,7 +1,5 @@
-// `preview` accepts either:
-//   { type: "image", src: "/src/assets/images/your-shot.png" }
-//   { type: "video", src: "/src/assets/images/your-clip.mp4" }
-// Leave it as `null` to fall back to a placeholder swatch.
+import algorhythmPreview from "../assets/images/algorhythm-preview.jpg";
+import gasguardPreview from "../assets/images/gasguard-preview.png";
 
 export const projects = [
   {
@@ -9,7 +7,7 @@ export const projects = [
     name: "Algorhythm",
     description: "A sleep sound therapy device with companion mobile app with a goal of helping people improve their sleep quality.",
     year: "2026",
-    preview: { type: "image", src: "/src/assets/images/algorhythm-preview.jpg" },
+    preview: { type: "image", src: algorhythmPreview },
     accent: "from-teal to-cerulean",
   },
   {
@@ -17,8 +15,7 @@ export const projects = [
     name: "GasGuard",
     description: "A smart gas leak detection system with real-time monitoring and alerts.",
     year: "2026",
-    preview: { type: "image", src: "/src/assets/images/gasguard-preview.png" },
+    preview: { type: "image", src: gasguardPreview },
     accent: "from-cerulean to-amber",
   },
-
 ];

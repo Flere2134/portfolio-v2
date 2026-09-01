@@ -1,6 +1,8 @@
 // Central place for hero/profile content. Keeping copy out of the
 // component markup makes it easy to update without touching JSX.
 
+import profilePhoto from "../assets/images/profile-photo.jpg";
+
 export const profile = {
   name: "Aaron Arboleda",
   title: "Computer Engineer & Aspiring Product Manager",
@@ -9,7 +11,7 @@ export const profile = {
   bio: `Aaron has a passion for defining how technology looks, feels, and functions — from a blank canvas, to clear technical requirements, to a team shipping something real. I act as a bridge between craftsmanship and digital innovation. I'm most interested in situations where I get to sit between engineering and the people who use what gets built.`,
   tagline:
     "I treat product development like a hand worth playing well — read the table, know the stakes, commit.",
-  photo: "/src/assets/images/profile-photo.jpg",
+  photo: profilePhoto,
   cards: [
     {
       label: "LATEST PROJECT",
