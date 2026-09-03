@@ -61,7 +61,7 @@ export default function Projects() {
     >
       <div className="mx-auto max-w-4xl">
         <p className="text-xs font-semibold tracking-[0.2em] text-espresso/50 dark:text-surface/70">
-          SELECTED WORK
+          SELECTED PROJECTS
         </p>
 
         <div

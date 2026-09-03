@@ -199,6 +199,8 @@ export default function CaseStudies() {
                           <div className="flex items-center gap-2">
                             <a
                               href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               aria-label="Open case study"
                               className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
                             >

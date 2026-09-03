@@ -44,9 +44,6 @@ export default function Hero() {
             {profile.cards.map((card) => (
               <div
                 key={card.label}
-                // Solid surfaces on purpose: these sit above the animated
-                // background paths, so a translucent bg would let the lines
-                // bleed through and read as "on top of" the card.
                 className="rounded-2xl border border-espresso/10 bg-surface px-5 py-4 dark:border-dark-surface dark:bg-dark-surface"
               >
                 <p className="text-[11px] font-semibold tracking-[0.18em] text-amber dark:text-dark-accent">
@@ -116,6 +113,8 @@ export default function Hero() {
                   <a
                     key={label}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-between rounded-2xl border border-background/10 bg-background/5 px-4 py-3 transition-colors hover:bg-background/10"
                   >
                     <span className="flex items-center gap-3">

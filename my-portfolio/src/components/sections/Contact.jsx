@@ -77,6 +77,8 @@ export default function Contact() {
               <a
                 key={label}
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={label}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-cerulean/30 text-cerulean transition-colors hover:bg-cerulean hover:text-espresso"
               >
