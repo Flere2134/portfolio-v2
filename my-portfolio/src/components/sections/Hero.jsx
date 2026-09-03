@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Linkedin, Github, ArrowUpRight } from "lucide-react";
-import ThemeToggle from "../ui/ThemeToggle.jsx";
 import BackgroundPaths from "../ui/BackgroundPaths.jsx";
 import { profile } from "../../data/profile.js";
 
@@ -20,9 +19,11 @@ export default function Hero() {
     });
   };
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-background transition-colors duration-300 dark:bg-espresso">
+    <section
+      id="hero"
+      className="relative min-h-screen w-full overflow-hidden bg-background transition-colors duration-300 dark:bg-espresso"
+    >
       <BackgroundPaths />
-      <ThemeToggle className="absolute top-6 right-6 z-10" />
 
       <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-2 md:gap-14 md:px-10 md:py-32">
         {/* Left column */}
