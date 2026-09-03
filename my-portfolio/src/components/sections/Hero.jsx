@@ -59,6 +59,7 @@ export default function Hero() {
 
           <a
             href={profile.cta.href}
+            download="APM_Arboleda_Resume.pdf"
             className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-cerulean px-6 py-3.5 text-sm font-semibold tracking-wide text-background transition-colors hover:bg-teal dark:hover:bg-dark-brand"
           >
             {profile.cta.label}
@@ -89,7 +90,6 @@ export default function Hero() {
                   className="h-28 w-28 rounded-full object-cover"
                 />
               ) : (
-                // TODO: replace with a real photo via profile.photo in data/profile.js
                 <div className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-cerulean/50 bg-background/10 text-2xl font-bold text-background">
                   AA
                 </div>
