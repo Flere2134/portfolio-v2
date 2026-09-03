@@ -68,7 +68,7 @@ export default function Nav() {
         <nav
           aria-label="Section navigation"
           onMouseLeave={() => setHoveredHref(null)}
-          className="col-start-2 hidden justify-self-center rounded-full border border-espresso/10 bg-surface/80 p-1.5 backdrop-blur-xl dark:border-dark-surface dark:bg-dark-surface/80 md:flex"
+          className="col-start-2 hidden justify-self-center rounded-full border border-espresso/10 bg-surface/80 p-1.5 ring-1 ring-transparent backdrop-blur-xl transition-shadow duration-200 hover:ring-cerulean dark:border-dark-surface dark:bg-dark-surface/80 dark:hover:ring-amber md:flex"
         >
           {NAV_LINKS.map((link) => {
             const isActive = activeHref === link.href;
@@ -88,7 +88,7 @@ export default function Nav() {
                   {isHovered && (
                     <motion.span
                       layoutId="nav-highlight"
-                      className="absolute inset-0 rounded-full bg-teal dark:bg-dark-brand"
+                      className="absolute inset-0 rounded-full bg-teal dark:bg-amber"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
