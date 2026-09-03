@@ -2,6 +2,7 @@
 // images once you have them. `image` accepts a path/import (see the note
 // in CaseStudies.jsx); leave it `null` to fall back to a placeholder swatch.
 import caseStudy1 from "../assets/images/case-study-1.png";
+import caseStudy2 from "../assets/images/case-study-2.png";
 
 export const caseStudies = [
   {
@@ -17,7 +18,7 @@ export const caseStudies = [
     title: "[PRD] Algorhythm",
     tag: "Product Requirements Document",
     href: "#",
-    image: null,
+    image: caseStudy2,
     accent: "from-cerulean to-amber",
   },
   {

@@ -63,7 +63,7 @@ export default function BackgroundPaths({ className = "" }) {
   return (
     <div
       className={
-        "pointer-events-none absolute inset-0 text-espresso/30 dark:text-amber/60 " +
+        "pointer-events-none absolute inset-0 text-espresso/30 dark:text-dark-accent/60 " +
         className
       }
     >
