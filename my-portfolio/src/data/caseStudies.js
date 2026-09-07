@@ -17,7 +17,7 @@ export const caseStudies = [
     id: "case-two",
     title: "[PRD] Algorhythm",
     tag: "Product Requirements Document",
-    href: "#",
+    href: "https://app.notion.com/p/PRD-Algorhythm-A-Sleep-Sound-Therapy-System-3d1a07f9219b80b4a4e6d1ed626fd8d9",
     image: caseStudy2,
     accent: "from-cerulean to-amber",
   },
