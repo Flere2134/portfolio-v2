@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Maximize2, SkipForward } from "lucide-react";
+import { SkipForward } from "lucide-react";
 import { caseStudies } from "../../data/caseStudies.js";
 
 const ITEM_HEIGHT = 96; // px — keep in sync with the `h-24` on each <li>
@@ -72,12 +72,18 @@ export default function CaseStudies() {
     window.scrollTo({ top: targetY, behavior: "smooth" });
   };
 
+  const handleCardClick = (item, index, isActive) => {
+    if (isActive) {
+      window.open(item.href, "_blank", "noopener,noreferrer");
+    } else {
+      goToIndex(index);
+    }
+  };
+
   return (
     <section
       ref={sectionRef}
       id="case-studies"
-      // Extra scroll distance gives the pin room to work — roughly one
-      // viewport per item, plus one for settle-in/settle-out.
       style={{ height: `${(caseStudies.length + 1) * 100}vh` }}
       className="relative border-t border-espresso/10 dark:border-surface/10"
     >
@@ -160,14 +166,31 @@ export default function CaseStudies() {
                 return (
                   <div
                     key={item.id}
-                    className="w-full overflow-hidden rounded-2xl border border-background/10 bg-espresso shadow-xl"
+                    onClick={() => handleCardClick(item, index, isActive)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={
+                      isActive
+                        ? `Open case study: ${item.title}`
+                        : `Focus case study: ${item.title}`
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleCardClick(item, index, isActive);
+                      }
+                    }}
+                    className={
+                      "group w-full cursor-pointer overflow-hidden rounded-2xl border border-background/10 bg-espresso shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-cerulean " +
+                      (isActive ? "hover:brightness-110" : "")
+                    }
                     style={{
                       height: CARD_HEIGHT,
                       marginBottom: CARD_GAP,
                       opacity,
                       transform: `scale(${scale})`,
                       filter: blur ? `blur(${blur}px)` : "none",
-                      transition: "filter 150ms linear",
+                      transition: "filter 150ms linear, opacity 150ms linear",
                     }}
                   >
                     <div className="relative h-full w-full">
@@ -196,28 +219,30 @@ export default function CaseStudies() {
                           {item.tag}
                         </span>
                         {isActive && (
-                          <div className="flex items-center gap-2">
-                            <a
-                              href={item.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label="Open case study"
-                              className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
-                            >
-                              <Maximize2 size={13} />
-                            </a>
-                            <button
-                              onClick={() =>
-                                goToIndex((activeIndex + 1) % caseStudies.length)
-                              }
-                              aria-label="Next case study"
-                              className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
-                            >
-                              <SkipForward size={13} />
-                            </button>
-                          </div>
+                          <button
+                            onClick={(e) => {
+                              // Don't let this bubble up to the card's own
+                              // click handler — it would fire the same
+                              // navigation twice.
+                              e.stopPropagation();
+                              goToIndex((activeIndex + 1) % caseStudies.length);
+                            }}
+                            aria-label="Next case study"
+                            className="flex h-7 w-7 items-center justify-center rounded-full bg-black/30 text-background/80 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-background"
+                          >
+                            <SkipForward size={13} />
+                          </button>
                         )}
                       </div>
+
+                      {/* Subtle hint that the active card is clickable */}
+                      {isActive && (
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                          <span className="text-xs font-semibold tracking-[0.1em] text-background/90">
+                            View case study →
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
