@@ -21,12 +21,4 @@ export const caseStudies = [
     image: caseStudy2,
     accent: "from-cerulean to-amber",
   },
-  {
-    id: "case-three",
-    title: "Case Study Three",
-    tag: "PLACEHOLDER TAG",
-    href: "#",
-    image: null,
-    accent: "from-amber to-espresso",
-  },
 ];
